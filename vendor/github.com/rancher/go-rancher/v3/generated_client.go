@@ -44,6 +44,7 @@ type RancherClient struct {
 	ExternalServiceEvent               ExternalServiceEventOperations
 	FieldDocumentation                 FieldDocumentationOperations
 	GenericObject                      GenericObjectOperations
+	HaMembership                       HaMembershipOperations
 	HealthcheckState                   HealthcheckStateOperations
 	Host                               HostOperations
 	HostAccess                         HostAccessOperations
@@ -178,6 +179,7 @@ func constructClient(rancherBaseClient *RancherBaseClientImpl) *RancherClient {
 	client.ExternalServiceEvent = newExternalServiceEventClient(client)
 	client.FieldDocumentation = newFieldDocumentationClient(client)
 	client.GenericObject = newGenericObjectClient(client)
+	client.HaMembership = newHaMembershipClient(client)
 	client.HealthcheckState = newHealthcheckStateClient(client)
 	client.Host = newHostClient(client)
 	client.HostAccess = newHostAccessClient(client)

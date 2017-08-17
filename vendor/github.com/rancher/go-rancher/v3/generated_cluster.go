@@ -19,9 +19,9 @@ type Cluster struct {
 
 	Identity ClusterIdentity `json:"identity,omitempty" yaml:"identity,omitempty"`
 
-	K8sClientConfig K8sClientConfig `json:"k8sClientConfig,omitempty" yaml:"k8s_client_config,omitempty"`
+	K8sClientConfig *K8sClientConfig `json:"k8sClientConfig,omitempty" yaml:"k8s_client_config,omitempty"`
 
-	K8sServerConfig K8sServerConfig `json:"k8sServerConfig,omitempty" yaml:"k8s_server_config,omitempty"`
+	K8sServerConfig *K8sServerConfig `json:"k8sServerConfig,omitempty" yaml:"k8s_server_config,omitempty"`
 
 	Kind string `json:"kind,omitempty" yaml:"kind,omitempty"`
 
