@@ -8,6 +8,8 @@ import (
 
 	"k8s.io/client-go/rest"
 	"github.com/rancher/go-rancher/v3"
+	"k8s.io/client-go/kubernetes"
+	"k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 const (
@@ -45,16 +47,24 @@ func runReporter() error {
 		return err
 	}
 
+	clientset, err := kubernetes.NewForConfig(cfg)
+	if err != nil {
+		return err
+	}
+
+	kubeSystem, err := clientset.Namespaces().Get("kube-system", v1.GetOptions{})
+	if err != nil {
+		return err
+	}
+
 	rancherClient, err := getRancherClient()
 	if err != nil {
 		return err
 	}
 
-	_, err = rancherClient.Cluster.Create(&client.Cluster{
-		// TODO
-		Name: "josh",
-		Embedded: false,
-		K8sClientConfig: client.K8sClientConfig{
+	_, err = rancherClient.Register.Create(&client.Register{
+		Key: fmt.Sprint(kubeSystem.UID),
+		K8sClientConfig: &client.K8sClientConfig{
 			Address: fmt.Sprintf("%s:%s", kubernetesServiceHost, kubernetesServicePort),
 			BearerToken: cfg.BearerToken,
 			CaCert: string(cfg.CAData),
