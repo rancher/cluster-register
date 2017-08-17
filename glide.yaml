@@ -3,7 +3,7 @@ import:
 - package: k8s.io/client-go
   version: v3.0.0-beta.0
 - package: github.com/rancher/go-rancher
-  version: 5858fac4fac08f07449eb9ee10a191902699c8a7
+  version: e591ba41ab5d5c862db28b97eda06ad837f783b0
   repo: https://github.com/joshwget/go-rancher
 - package: github.com/Sirupsen/logrus
   version: 26709e2714106fb8ad40b773b711ebce25b78914
