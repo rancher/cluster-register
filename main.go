@@ -2,21 +2,19 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"os"
 	"path"
-	"io/ioutil"
 
-	"k8s.io/client-go/rest"
 	"github.com/rancher/go-rancher/v3"
-	"k8s.io/client-go/kubernetes"
-	"k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/client-go/rest"
 )
 
 const (
 	rancherCredentialsFolder = "/rancher-credentials"
-	urlKeyFilename = "url"
-	accessKeyFilename = "access-key"
-	secretKeyFilename = "secret-key"
+	urlKeyFilename           = "url"
+	accessKeyFilename        = "access-key"
+	secretKeyFilename        = "secret-key"
 
 	kubernetesServiceHostKey = "KUBERNETES_SERVICE_HOST"
 	kubernetesServicePortKey = "KUBERNETES_SERVICE_PORT"
@@ -47,27 +45,16 @@ func runReporter() error {
 		return err
 	}
 
-	clientset, err := kubernetes.NewForConfig(cfg)
-	if err != nil {
-		return err
-	}
-
-	kubeSystem, err := clientset.Namespaces().Get("kube-system", v1.GetOptions{})
-	if err != nil {
-		return err
-	}
-
 	rancherClient, err := getRancherClient()
 	if err != nil {
 		return err
 	}
 
 	_, err = rancherClient.Register.Create(&client.Register{
-		Key: fmt.Sprint(kubeSystem.UID),
 		K8sClientConfig: &client.K8sClientConfig{
-			Address: fmt.Sprintf("%s:%s", kubernetesServiceHost, kubernetesServicePort),
+			Address:     fmt.Sprintf("%s:%s", kubernetesServiceHost, kubernetesServicePort),
 			BearerToken: cfg.BearerToken,
-			CaCert: string(cfg.CAData),
+			CaCert:      string(cfg.CAData),
 		},
 	})
 	return err
@@ -104,13 +91,13 @@ func getRancherClient() (*client.RancherClient, error) {
 		return nil, err
 	}
 	return client.NewRancherClient(&client.ClientOpts{
-		Url: url,
+		Url:       url,
 		AccessKey: accessKey,
 		SecretKey: secretKey,
 	})
 }
 
-func readKey(key string) (string, error){
+func readKey(key string) (string, error) {
 	bytes, err := ioutil.ReadFile(path.Join(rancherCredentialsFolder, key))
 	if err != nil {
 		return "", err
