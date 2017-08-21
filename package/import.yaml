@@ -25,6 +25,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: rancher-credentials
+  namespace: kube-system
 type: Opaque
 data:
   url: ""
@@ -37,6 +38,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: credential-reporter
+  namespace: kube-system
 spec:
   serviceAccountName: rancher
   restartPolicy: Never
