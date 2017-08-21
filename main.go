@@ -5,7 +5,9 @@ import (
 	"io/ioutil"
 	"os"
 	"path"
+	"time"
 
+	log "github.com/Sirupsen/logrus"
 	"github.com/rancher/go-rancher/v3"
 	"k8s.io/client-go/rest"
 )
@@ -22,7 +24,7 @@ const (
 
 func main() {
 	if err := runReporter(); err != nil {
-		panic(err)
+		log.Fatalf("Failed to report back to Rancher: %v", err)
 	}
 }
 
@@ -50,14 +52,20 @@ func runReporter() error {
 		return err
 	}
 
-	_, err = rancherClient.Register.Create(&client.Register{
-		K8sClientConfig: &client.K8sClientConfig{
-			Address:     fmt.Sprintf("%s:%s", kubernetesServiceHost, kubernetesServicePort),
-			BearerToken: cfg.BearerToken,
-			CaCert:      string(cfg.CAData),
-		},
-	})
-	return err
+	for {
+		_, err = rancherClient.Register.Create(&client.Register{
+			K8sClientConfig: &client.K8sClientConfig{
+				Address:     fmt.Sprintf("%s:%s", kubernetesServiceHost, kubernetesServicePort),
+				BearerToken: cfg.BearerToken,
+				CaCert:      string(cfg.CAData),
+			},
+		})
+		if err == nil {
+			return nil
+		}
+		log.Errorf("Failed to create registration in Rancher: %v", err)
+		time.Sleep(5 * time.Second)
+	}
 }
 
 func getenv(env string) (string, error) {
