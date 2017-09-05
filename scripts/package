@@ -12,7 +12,7 @@ cd $(dirname $0)/../package
 TAG=${TAG:-${VERSION}${SUFFIX}}
 REPO=${REPO:-rancher}
 
-cp ../bin/credential-reporter .
-docker build -t ${REPO}/credential-reporter:${TAG} .
+cp ../bin/cluster-register .
+docker build -t ${REPO}/cluster-register:${TAG} .
 
-echo Built ${REPO}/credential-reporter:${TAG}
+echo Built ${REPO}/cluster-register:${TAG}

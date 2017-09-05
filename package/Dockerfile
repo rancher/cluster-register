@@ -1,3 +1,3 @@
 FROM scratch
-COPY credential-reporter /
-CMD ["/credential-reporter"]
+COPY cluster-register /
+CMD ["/cluster-register"]

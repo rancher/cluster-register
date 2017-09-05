@@ -1,4 +1,4 @@
-credential-reporter
+cluster-register
 ========
 
 A microservice that does micro things.
@@ -10,7 +10,7 @@ A microservice that does micro things.
 
 ## Running
 
-`./bin/credential-reporter`
+`./bin/cluster-register`
 
 ## License
 Copyright (c) 2014-2016 [Rancher Labs, Inc.](http://rancher.com)
