@@ -37,14 +37,14 @@ data:
 apiVersion: v1
 kind: Pod
 metadata:
-  name: credential-reporter
+  name: cluster-register
   namespace: kube-system
 spec:
   serviceAccountName: rancher
   restartPolicy: Never
   containers:
-    - name: credential-reporter
-      image: joshwget/credential-reporter
+    - name: cluster-register
+      image: joshwget/cluster-register
       volumeMounts:
       - name: rancher-credentials
         mountPath: /rancher-credentials
