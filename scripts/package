@@ -13,6 +13,8 @@ TAG=${TAG:-${VERSION}${SUFFIX}}
 REPO=${REPO:-rancher}
 
 cp ../bin/cluster-register .
-docker build -t ${REPO}/cluster-register:${TAG} .
 
-echo Built ${REPO}/cluster-register:${TAG}
+IMAGE=${REPO}/cluster-register:${TAG}
+docker build -t ${IMAGE} .
+echo ${IMAGE} > ../dist/images
+echo Built ${IMAGE}
